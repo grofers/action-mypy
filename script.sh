@@ -12,11 +12,12 @@ BASE_PATH="$(cd "$(dirname "$0")" && pwd)"
 
 cd "${GITHUB_WORKSPACE}/${INPUT_WORKDIR}" || exit
 
-TEMP_PATH="$(mktemp -d)"
-PATH="${TEMP_PATH}:$PATH"
+INSTALL_PATH="/home/runner/bin"
+mkdir -p "${INSTALL_PATH}"
+export PATH="/usr/bin:${INSTALL_PATH}:$PATH"
 
 echo '::group::🐶 Installing reviewdog ... https://github.com/reviewdog/reviewdog'
-curl -sfL https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b "${TEMP_PATH}" "${REVIEWDOG_VERSION}" 2>&1
+curl -sfL https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b "${INSTALL_PATH}" "${REVIEWDOG_VERSION}" 2>&1
 echo '::endgroup::'
 
 # check setup method
